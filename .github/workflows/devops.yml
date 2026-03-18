@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
     steps:
     - name: Clonar repo
       uses: actions/checkout@v3
@@ -14,5 +14,8 @@ jobs:
     - name: Construir imagen Docker
       run: docker build -t devops-app .
 
-    - name: Ejecutar contenedor
-      run: docker run -d -p 80:80 devops-app
+    - name: Detener contenedor anterior (si existe)
+      run: docker rm -f mi-despliegue-app || true
+
+    - name: Ejecutar nuevo contenedor en puerto 8008
+      run: docker run -d --name mi-despliegue-app -p 8008:80 devops-app
