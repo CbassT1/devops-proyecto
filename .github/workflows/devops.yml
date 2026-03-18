@@ -15,7 +15,8 @@ jobs:
       run: docker build -t devops-app .
 
     - name: Detener contenedor anterior (si existe)
-      run: docker rm -f mi-despliegue-app || true
+      run: docker rm -f mi-despliegue-app
+      continue-on-error: true
 
     - name: Ejecutar nuevo contenedor en puerto 8008
       run: docker run -d --name mi-despliegue-app -p 8008:80 devops-app
